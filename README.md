@@ -6,9 +6,15 @@
 - package manager used is npm (though this should not matter too much)
 - the project itself is a Next.js app
 
-the following packages are used:
-- recharts 
-- tailwindcss
+<br>
+
+shadcn ui library used; setup with:
+```sh
+npx shadcn@latest init
+```
 
 ## running the project
-a development server can be started simply: navigate to the `802mini` directory and run `npx start` in the terminal
+a development server can be started by:
+```sh
+npm run dev
+```
