@@ -221,7 +221,7 @@ const config_incident_type = {
   },
 } satisfies ChartConfig
 
-export function ChartIncType() {
+function ChartIncType() {
   const id = "pie-interactive"
   const [activeInc, setActiveInc] = React.useState(data_incident_type[0].inc)
   const activeIndex = React.useMemo(
@@ -441,7 +441,7 @@ const config_incident_type2 = {
   },
 } satisfies ChartConfig
 
-export function ChartIncType2() {
+function ChartIncType2() {
   const id = "pie-interactive"
   const [activeInc, setActiveInc] = React.useState(data_incident_type2[0].inc)
   const activeIndex = React.useMemo(
@@ -586,7 +586,7 @@ const config_dir = {
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
-export function ChartDirs() {
+function ChartDirs() {
   return (
     <Card>
       <CardHeader className="items-center pb-4">
@@ -662,7 +662,7 @@ const config_dirinj = {
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig
-export function ChartDirInj() {
+function ChartDirInj() {
   return (
     <Card>
       <CardHeader className="items-center pb-4">
@@ -760,7 +760,7 @@ const config_ibyregion = {
   },
 } satisfies ChartConfig
 
-export function ChartIByRegion() {
+function ChartIByRegion() {
   return (
     <Card>
       <CardHeader>
