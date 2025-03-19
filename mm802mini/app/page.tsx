@@ -1,116 +1,64 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-import postgres from "postgres"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
-
-export function Component() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
-      </CardFooter>
-    </Card>
-  )
-}
+import { useEffect, useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function Home() {
+  const [data, setData] = useState([]);
+  const [minFilter, setMinFilter] = useState(0);
+  const [maxFilter, setMaxFilter] = useState(150000);
+
+  useEffect(() => {
+    fetch("/api/salaries")
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+
+  // Filter salaries within the range
+  const filteredData = data.filter(job =>
+    job.minimum_annual_salary >= minFilter && job.maximum_annual_salary <= maxFilter
+  );
+
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-      <Component/>
-    </div>
-  )
+    <main className="flex flex-col items-center justify-center min-h-screen p-4">
+      <h1 className="text-3xl font-bold mb-4">City of Edmonton Salaries</h1>
+
+      {/* Salary Range Filter */}
+      <div className="flex gap-4 mb-4">
+        <label>
+          Min Salary:
+          <input
+            type="number"
+            value={minFilter}
+            onChange={(e) => setMinFilter(Number(e.target.value))}
+            className="border rounded p-2"
+          />
+        </label>
+        <label>
+          Max Salary:
+          <input
+            type="number"
+            value={maxFilter}
+            onChange={(e) => setMaxFilter(Number(e.target.value))}
+            className="border rounded p-2"
+          />
+        </label>
+      </div>
+
+      {/* Salary Bar Chart */}
+      <div className="w-full max-w-4xl bg-white p-4 rounded-lg shadow">
+        <h2 className="text-xl font-semibold mb-2">Filtered Job Salaries</h2>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={filteredData}>
+            <XAxis dataKey="job_title" tick={{ fontSize: 12 }} />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="minimum_annual_salary" fill="#82ca9d" name="Min Salary" />
+            <Bar dataKey="maximum_annual_salary" fill="#8884d8" name="Max Salary" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </main>
+  );
 }
