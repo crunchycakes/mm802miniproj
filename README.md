@@ -1,6 +1,6 @@
 # mm802miniproj
 
-a deployment of this app is available at `802mini.mine.bz`
+a deployment of this app is available at http://802mini.mine.bz
 
 ## environment details
 - original desktop environ is Windows 11
