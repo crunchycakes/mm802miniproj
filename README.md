@@ -13,8 +13,14 @@ shadcn ui library used; setup with:
 npx shadcn@latest init
 ```
 
+additional modules:
+- postgres
+
 ## running the project
 a development server can be started by:
 ```sh
 npm run dev
 ```
+
+## dev notes
+please refer to tailwindcss docs for layout: [https://tailwindcss.com/docs](https://tailwindcss.com/docs)
