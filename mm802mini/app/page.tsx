@@ -18,6 +18,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+
+
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -37,6 +39,7 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
+
 
 export function Component() {
   return (
@@ -111,6 +114,9 @@ export default function Home() {
         Hello world!
       </h1>
       <Component/>
+      <ul>
+        
+      </ul>
     </div>
   )
 }

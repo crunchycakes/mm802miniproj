@@ -14,7 +14,7 @@ npx shadcn@latest init
 ```
 
 additional modules:
-- postgres
+- postgres (this is within the server but unused)
 
 ## running the project
 a development server can be started by:
@@ -24,3 +24,6 @@ npm run dev
 
 ## dev notes
 please refer to tailwindcss docs for layout: [https://tailwindcss.com/docs](https://tailwindcss.com/docs)
+
+## misc notes
+Thanks to https://stackoverflow.com/a/34884609 for data import
