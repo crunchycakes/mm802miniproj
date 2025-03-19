@@ -687,7 +687,7 @@ export function ChartDirs() {
       <CardContent className="pb-0">
         <ChartContainer
           config={config_dir}
-          className="mx-auto aspect-square max-h-[500px]"
+          className="mx-auto aspect-square max-h-[600px]"
         >
           <RadarChart data={data_dir}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
@@ -712,6 +712,108 @@ export function ChartDirs() {
     </Card>
   )
 }
+
+// injury by direction
+const data_dirinj = [
+  { dir: "North", fatal: 79, serious: 34, minor: 66, ambiguous: 1},
+  { dir: "North-northeast", fatal: 24, serious: 5, minor: 33, ambiguous: 1},
+  { dir: "Northeast", fatal: 69, serious: 23, minor: 45, ambiguous: 0},
+  { dir: "East-northeast", fatal: 10, serious: 7, minor: 65, ambiguous: 0},
+  { dir: "East", fatal: 63, serious: 30, minor: 78, ambiguous: 1},
+  { dir: "East-southeast", fatal: 16, serious: 9, minor: 13, ambiguous: 10},
+  { dir: "Southeast", fatal: 44, serious: 26, minor: 45, ambiguous: 0},
+  { dir: "South-southeast", fatal: 11, serious: 11, minor: 6, ambiguous: 0},
+  { dir: "South", fatal: 49, serious: 21, minor: 98, ambiguous: 0},
+  { dir: "South-southwest", fatal: 11, serious: 7, minor: 5, ambiguous: 0},
+  { dir: "Southwest", fatal: 50, serious: 44, minor: 102, ambiguous: 0},
+  { dir: "West-southwest", fatal: 21, serious: 7, minor: 9, ambiguous: 2},
+  { dir: "West", fatal: 110, serious: 38, minor: 86, ambiguous: 0},
+  { dir: "West-northwest", fatal: 16, serious: 2, minor: 15, ambiguous: 0},
+  { dir: "Northwest", fatal: 68, serious: 53, minor: 86, ambiguous: 0},
+  { dir: "North-northwest", fatal: 12, serious: 11, minor: 28, ambiguous: 0},
+
+]
+const config_dirinj = {
+  fatal: {
+    label: "Fatal",
+    color: "hsl(var(--chart-1))",
+  },
+  serious: {
+    label: "Serious",
+    color: "hsl(var(--chart-2))",
+  },
+  minor: {
+    label: "Minor",
+    color: "hsl(var(--chart-3))",
+  },
+  ambiguous: {
+    label: "Unknown",
+    color: "hsl(var(--chart-5))",
+  },
+} satisfies ChartConfig
+export function ChartDirInj() {
+  return (
+    <Card>
+      <CardHeader className="items-center pb-4">
+        <CardTitle>Injuries by plane bearing at incident</CardTitle>
+        <CardDescription>
+          Edmonton 1995
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer
+          config={config_dirinj}
+          className="mx-auto aspect-square max-h-[600px]"
+        >
+          <RadarChart
+            data={data_dirinj}
+            margin={{
+              top: -40,
+              bottom: -10,
+            }}
+          >
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <PolarAngleAxis dataKey="dir" />
+            <PolarGrid />
+            <Radar
+              dataKey="fatal"
+              fill="var(--color-fatal)"
+              fillOpacity={0.4}
+            />
+            <Radar
+              dataKey="serious"
+              fill="var(--color-serious)"
+              fillOpacity={0.5}
+            />
+            <Radar
+              dataKey="minor"
+              fill="var(--color-minor)"
+              fillOpacity={0.5}
+            />
+            <Radar
+              dataKey="ambiguous"
+              fill="var(--color-ambiguous)"
+              fillOpacity={0.9}
+            />
+            <ChartLegend className="mt-8" content={<ChartLegendContent />} />
+          </RadarChart>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col gap-2 pt-4 text-sm">
+        <div className="flex items-center gap-2 font-medium leading-none">
+          Non-injuries excluded for the sake of visualisation. Significant unknown outlier at ESE truncated.
+        </div>
+        <div className="flex items-center gap-2 leading-none text-muted-foreground">
+          This suggests some better granularity in directional reporting closer to Northeast.
+        </div>
+      </CardFooter>
+    </Card>
+  )
+}
+
 
 // injury breakdown by region
 const data_ibyregion = [
@@ -823,6 +925,7 @@ export default function Home() {
       <ChartIncType/>
       <ChartIncType2/>
       <ChartDirs/>
+      <ChartDirInj/>
       <ChartIByRegion/>
     </div>
   )
